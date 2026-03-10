@@ -1,8 +1,8 @@
 import os
-from controllers.gasto_controller import GastoController
+from src.controllers.gasto_controller import GastoController
+from src.repositories.gasto_repository import GastoRepository
 
 def iniciar_sistema():
-    # Buscando o 'bilhete' do sistema. Se não existir, usa 3 por padrão.
     mes_env = int(os.getenv("MES_CONSULTA", 3))
     ano_env = int(os.getenv("ANO_CONSULTA", 2026))
 
@@ -14,3 +14,11 @@ def iniciar_sistema():
 
 if __name__ == "__main__":
     iniciar_sistema()
+
+    from src.repositories.gasto_repository import GastoRepository
+
+repo = GastoRepository()
+lista = repo.listar_todos()
+
+print("--- Teste de Leitura de Gastos ---")
+print(lista)

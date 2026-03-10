@@ -1,10 +1,27 @@
-from models.gasto import Gasto
-from datetime import date
+import json
+import os
 
 class GastoRepository:
-    def buscar_todos(self):
-        return [
-            Gasto(descricao="Internet", valor=150.0, data=date(2026, 3, 1)),
-            Gasto(descricao="Luz", valor=200.0, data=date(2026, 3, 5)),
-            Gasto(descricao="Mercado", valor=500.0, data=date(2026, 2, 20)),
-        ]
+    def __init__(self):
+      
+        diretorio_script = os.path.dirname(os.path.abspath(__file__))
+      
+        self.caminho_arquivo = os.path.join(diretorio_script, '..', 'data', 'gastos.json')
+        
+        
+        self.caminho_arquivo = os.path.normpath(self.caminho_arquivo)
+
+    def listar_todos(self):
+        try:
+            
+            with open(self.caminho_arquivo, 'r', encoding='utf-8') as arquivo:
+                dados = json.load(arquivo)
+                return dados
+        except FileNotFoundError:
+            
+            print(f"Erro: Arquivo não encontrado.")
+            return []
+        except json.JSONDecodeError:
+            
+            print("Erro: Formato JSON inválido.")
+            return []
